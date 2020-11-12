@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--status="WARN"，這個用於設定log4j2自身輸出的日誌級別，可以不設定，當設定成trace時，你會看到log4j2內部各種詳細輸出 -->
+<!--monitorInterval="30"：Log4j能夠自動檢測修改配置 檔案和重新配置本身，設定間隔秒數不低於30秒 -->
+<configuration status="WARN" monitorInterval="30">
+	<!-- 配置日誌檔案輸出目錄此處定義了變數，後面就可以使用${LOG_HOME}進行引用了--> 
+	<Properties>
+		<Property name="LOG_HOME"> /logs</Property>
+	</Properties>
+
+	<!-- 日誌處理 -->
+	<Appenders>
+		<!-- 用來定義輸出到控制檯的Appender -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		
+
+	</Appenders>
+	<Loggers>
+		<!-- 自定義異步 logger對象
+		includeLocation="false" 關閉日誌記錄的行號訊息 
+		additivity="false" 不再繼承rootlogger對象
+		 -->
+		<AsyncLogger name="com.meituan.Main" level="trace" includeLocation="false" additivity="false">
+            <appender-ref ref="file"/>
+        </AsyncLogger>
+	
+	
+	
+		<!-- 使用 rootLogger 配置 日誌級別 level="TRACE"-->
+		<Root level="TRACE"> 
+			<!-- 指定日誌使用的處理器 log輸出的內容到console -->
+			<AppenderRef ref="Console" />  
+		</Root>
+	</Loggers>
+</configuration>
